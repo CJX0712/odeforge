@@ -1,0 +1,15 @@
+# Fully pinned, hand-written, no local paths and no file:// references.
+# Generated against and verified on:
+#   Python 3.13.14 (win_amd64), numpy 2.5.3, scipy 1.18.1
+# Install with:  pip install -r requirements.lock.txt
+colorama==0.4.6
+coverage==7.16.2
+iniconfig==2.3.0
+numpy==2.5.3
+packaging==26.2
+pluggy==1.6.0
+pytest==9.1.1
+pytest-cov==7.1.0
+PyYAML==6.0.3
+ruff==0.16.10
+scipy==1.18.1

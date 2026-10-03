@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+# Lint and tests are HARD gates. There is deliberately no `continue-on-error` and no
+# `|| true` anywhere in this file: a red lint must fail the build, or it is decoration.
+env:
+  PYTHONUTF8: "1"
+
+jobs:
+  quality:
+    name: lint + test (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.lock.txt
+
+      - name: ruff check (hard gate)
+        run: python -m ruff check .
+
+      - name: ruff format --check (hard gate)
+        run: python -m ruff format --check .
+
+      # Fast tests first: a contributor gets the quick signal in ~35 s.
+      - name: pytest (fast subset, hard gate)
+        run: python -m pytest -W ignore::UserWarning -m "not slow"
+
+      # The slow subset runs the acceptance gates for real. It is a separate step so a
+      # timeout is attributable to the gates rather than to the whole suite.
+      - name: pytest (acceptance gates, hard gate)
+        run: python -m pytest -W ignore::UserWarning -m slow
+
+      - name: coverage (hard gate, 80% floor on core modules)
+        run: >
+          python -m pytest -W ignore::UserWarning
+          --cov=core --cov=data --cov=integrators --cov=routing
+          --cov=autodiff --cov=training --cov=hpo --cov=eval --cov=pipeline
+          --cov-report=term-missing --cov-fail-under=80
+
+      # The demo is ~60 s per run; two runs plus the comparison prove determinism.
+      - name: determinism (two runs must agree bit for bit, hard gate)
+        run: |
+          python examples/run_demo.py
+          python tools/check_determinism.py --snapshot
+          python examples/run_demo.py
+          python tools/check_determinism.py
+
+      - name: secret scan
+        run: |
+          if grep -rnE "(sk-[A-Za-z0-9]{16,}|api[_-]?key[[:space:]]*[=:][[:space:]]*['\"][^'\"]+|password[[:space:]]*[=:][[:space:]]*['\"][^'\"]+)" --include="*.py" --include="*.md" --include="*.toml" --include="*.yml" .; then
+            echo "::error::potential secret detected"
+            exit 1
+          fi
+          echo "no secrets found"

@@ -1,0 +1,600 @@
+{
+  "ablation": [
+    {
+      "budget_n_fev": 120000,
+      "degradation_x": 1.0,
+      "max_deviation": 2.9577518212420273e-10,
+      "method": "yoshida6",
+      "n_fev": 119995,
+      "n_steps": 17142,
+      "net_drift": 4.2771342023684156e-13,
+      "route": "yoshida6",
+      "system": "double_well",
+      "variant": "full"
+    },
+    {
+      "budget_n_fev": 120000,
+      "degradation_x": 28.68760545100584,
+      "max_deviation": 2.6960743637616247e-08,
+      "method": "yoshida4",
+      "n_fev": 120001,
+      "n_steps": 40000,
+      "net_drift": 1.2270073845854768e-11,
+      "route": "forced_no_detection",
+      "system": "double_well",
+      "variant": "no_ham"
+    },
+    {
+      "budget_n_fev": 120000,
+      "degradation_x": 1905653.119402985,
+      "max_deviation": 8.157493853744313e-07,
+      "method": "dp54",
+      "n_fev": 81223,
+      "n_steps": 9856,
+      "net_drift": 8.15073413484857e-07,
+      "note": "equivalent to dp54_only: the monitor only adds a vote",
+      "route": "forced_no_monitor",
+      "system": "double_well",
+      "variant": "no_cons"
+    },
+    {
+      "budget_n_fev": 120000,
+      "degradation_x": 1905653.119402985,
+      "max_deviation": 8.157493853744313e-07,
+      "method": "dp54",
+      "n_fev": 81223,
+      "n_steps": 9856,
+      "net_drift": 8.15073413484857e-07,
+      "route": "no_routing",
+      "system": "double_well",
+      "variant": "dp54_only"
+    },
+    {
+      "budget_n_fev": 120000,
+      "degradation_x": 28.68760545100584,
+      "max_deviation": 2.6960743637616247e-08,
+      "method": "yoshida4",
+      "n_fev": 120001,
+      "n_steps": 40000,
+      "net_drift": 1.2270073845854768e-11,
+      "route": "downgrade",
+      "system": "double_well",
+      "variant": "y4_only"
+    }
+  ],
+  "config": {
+    "allow_scipy": true,
+    "atol": 1e-10,
+    "budget_n_fev": 120000,
+    "hamiltonian_threshold": 0.72,
+    "max_steps": 2000000,
+    "n_probe": 24,
+    "n_seeds": 3,
+    "noise_std": 0.001,
+    "output_dir": "results",
+    "rtol": 1e-08,
+    "seed": 20260101,
+    "steps_default": 4000,
+    "tol_grid_power": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10
+    ]
+  },
+  "convergence_orders": {
+    "rk4": {
+      "empirical_order": 3.945812120407857,
+      "nominal_order": 4
+    },
+    "vverlet": {
+      "empirical_order": 2.0016687701249793,
+      "nominal_order": 2
+    },
+    "yoshida4": {
+      "empirical_order": 4.003025887900488,
+      "nominal_order": 4
+    },
+    "yoshida6": {
+      "empirical_order": 6.000431982749488,
+      "nominal_order": 6
+    }
+  },
+  "demo_wall_sec": 48.94649610000488,
+  "flagship": "yoshida6",
+  "gates": {
+    "G1": {
+      "description": "equal-n_fev energy conservation vs tuned scipy DOP853",
+      "gate": "G1",
+      "n_skipped": 0,
+      "passed": true,
+      "rows": [
+        {
+          "baseline_atol": 1e-12,
+          "baseline_n_fev": 58226,
+          "baseline_net_drift": 9.199274120241796e-10,
+          "baseline_rtol": 1e-10,
+          "flagship_n_fev": 137136,
+          "flagship_n_steps": 17142,
+          "flagship_net_drift": 4.2771342023684156e-13,
+          "improvement_x": 1.97858286262071e-06,
+          "passed": true,
+          "ratio": 0.00046494257551877303,
+          "status": "measured",
+          "system": "double_well",
+          "threshold": 0.1
+        },
+        {
+          "baseline_atol": 1e-12,
+          "baseline_n_fev": 6290,
+          "baseline_net_drift": 6.292573129229595e-10,
+          "baseline_rtol": 1e-10,
+          "flagship_n_fev": 137136,
+          "flagship_n_steps": 17142,
+          "flagship_net_drift": 0.0,
+          "improvement_x": Infinity,
+          "passed": true,
+          "ratio": 0.0,
+          "status": "measured",
+          "system": "pendulum",
+          "threshold": 0.1
+        }
+      ],
+      "threshold": 0.1
+    },
+    "G2": {
+      "description": "equal-n_fev trajectory accuracy on NON-HAMILTONIAN systems (non-inferiority)",
+      "gate": "G2",
+      "n_skipped": 0,
+      "passed": false,
+      "rows": [
+        {
+          "baseline_traj_error": 7.783982972076053e-10,
+          "budget": {
+            "aligned": true,
+            "baseline_budget_error": 0.0009,
+            "baseline_knob": {
+              "atol": 1.0158648592743961e-16,
+              "max_step": 0.012024797969652948,
+              "method": "scipy_DOP853",
+              "rtol": 1.0158648592743961e-14
+            },
+            "baseline_n_fev": 19982,
+            "flagship_budget_error": 0.00235,
+            "flagship_knob": {
+              "atol": 4.676510082325784e-16,
+              "method": "dp54",
+              "rtol": 4.676510082325784e-14
+            },
+            "flagship_n_fev": 20047,
+            "n_fev_ratio": 0.9967576195939543,
+            "target_n_fev": 20000,
+            "tolerance": 0.1
+          },
+          "flagship_method": "dp54",
+          "flagship_traj_error": 9.303670759144844e-10,
+          "is_hamiltonian": false,
+          "passed": false,
+          "ratio": 1.1952326710529118,
+          "reference": {
+            "candidates_n_fev": 20000,
+            "cross_family_disagreement": 3.9873659929412497e-13,
+            "note": "cross-family agreement 3.987e-13; cheaper family spent n_fev=3494 (0.17x the candidate budget)",
+            "reference_method": "DOP853+Radau",
+            "reference_n_fev": 3494,
+            "resolved": true
+          },
+          "status": "measured",
+          "system": "van_der_pol",
+          "threshold": 1.0
+        }
+      ],
+      "threshold": 1.0
+    },
+    "G3": {
+      "description": "non-Hamiltonian regression guard (delegated to scipy)",
+      "gate": "G3",
+      "n_skipped": 0,
+      "passed": true,
+      "rows": [
+        {
+          "baseline_traj_error": 7.783982972076053e-10,
+          "budget": {
+            "aligned": true,
+            "baseline_budget_error": 0.0009,
+            "baseline_knob": {
+              "atol": 1.0158648592743961e-16,
+              "max_step": 0.012024797969652948,
+              "method": "scipy_DOP853",
+              "rtol": 1.0158648592743961e-14
+            },
+            "baseline_n_fev": 19982,
+            "flagship_budget_error": 0.0009,
+            "flagship_knob": {
+              "atol": 1.0158648592743961e-16,
+              "max_step": 0.012024797969652948,
+              "method": "scipy_DOP853",
+              "rtol": 1.0158648592743961e-14
+            },
+            "flagship_n_fev": 19982,
+            "n_fev_ratio": 1.0,
+            "target_n_fev": 20000,
+            "tolerance": 0.1
+          },
+          "delegated": true,
+          "flagship_traj_error": 7.783982972076053e-10,
+          "passed": true,
+          "ratio": 1.0,
+          "routed_method": "scipy_DOP853",
+          "status": "measured",
+          "system": "van_der_pol",
+          "threshold": 1.0526315789473684
+        },
+        {
+          "baseline_traj_error": 3.3354340445157504e-07,
+          "budget": {
+            "aligned": true,
+            "baseline_budget_error": 0.0003,
+            "baseline_knob": {
+              "atol": 1.6548170999431817e-16,
+              "max_step": 0.006076987267733966,
+              "method": "scipy_DOP853",
+              "rtol": 1.6548170999431816e-14
+            },
+            "baseline_n_fev": 19994,
+            "flagship_budget_error": 0.0003,
+            "flagship_knob": {
+              "atol": 1.6548170999431817e-16,
+              "max_step": 0.006076987267733966,
+              "method": "scipy_DOP853",
+              "rtol": 1.6548170999431816e-14
+            },
+            "flagship_n_fev": 19994,
+            "n_fev_ratio": 1.0,
+            "target_n_fev": 20000,
+            "tolerance": 0.1
+          },
+          "delegated": true,
+          "flagship_traj_error": 3.3354340445157504e-07,
+          "passed": true,
+          "ratio": 1.0,
+          "routed_method": "scipy_DOP853",
+          "status": "measured",
+          "system": "lorenz",
+          "threshold": 1.0526315789473684
+        }
+      ],
+      "threshold": 0.95
+    }
+  },
+  "gradient_check": {
+    "max_rel_error": 2.4459878567029136e-11,
+    "passed": true,
+    "tol": 1e-06
+  },
+  "meta": {
+    "author": "晨星 (Chen Xing)",
+    "email": "CJX0712@users.noreply.github.com",
+    "numpy": "2.5.3",
+    "platform": "Windows-11-10.0.29671-SP0",
+    "python": "3.13.14",
+    "scipy_available": true,
+    "seed": 20260101,
+    "seed_state": {
+      "global_seed": 20260101,
+      "legacy_seeded": true,
+      "numpy_bit_generator": "MT19937"
+    },
+    "timestamp_utc": "2026-10-03T20:23:51Z"
+  },
+  "passed": {
+    "G1": true,
+    "G2": false,
+    "G3": true,
+    "all": false
+  },
+  "systems": [
+    {
+      "invariants": [
+        {
+          "max_deviation": 2.6201263381153694e-14,
+          "n_points": 17143,
+          "net_drift": 2.275957200481571e-14,
+          "passed": true,
+          "quantity": "energy",
+          "relative_drift": 5.2402526762304643e-14,
+          "system": "harmonic",
+          "tol": 1e-06,
+          "why": "exact harmonic motion; any drift is pure truncation error"
+        }
+      ],
+      "method": "yoshida6",
+      "metrics": {
+        "cost": {
+          "n_fev": 119995,
+          "n_rejected": 0,
+          "n_steps": 17142,
+          "wall_sec": 0.07110699999611825
+        },
+        "max_deviation": 2.6201263381153694e-14,
+        "monotone_fraction": 0.31332399953330997,
+        "net_drift": 2.275957200481571e-14,
+        "relative_drift": 4.551914400962903e-14,
+        "sign_ratio": 0.5075120476235472
+      },
+      "n_fev": 119995,
+      "n_rejected": 0,
+      "n_steps": 17142,
+      "route": {
+        "conserved_available": true,
+        "conserved_max_rel_drift": 1.9907075987646294e-10,
+        "conserved_tol": 1e-06,
+        "degraded": false,
+        "hamiltonian_score": 0.9999999999999797,
+        "linear_residual": 1.0177044392707448e-16,
+        "method": "yoshida6",
+        "n_probe": 24,
+        "reason": "unanimous symplectic vote; system is separable",
+        "seed": 20260101,
+        "separability": true,
+        "votes": {
+          "conserved": true,
+          "hamiltonian": true,
+          "jacobian": true
+        }
+      },
+      "system": "harmonic",
+      "wall_sec": 0.07110699999611825
+    },
+    {
+      "invariants": [
+        {
+          "max_deviation": 2.9577518212420273e-10,
+          "n_points": 17143,
+          "net_drift": -4.2771342023684156e-13,
+          "passed": true,
+          "quantity": "energy",
+          "relative_drift": 5.974954439149616e-10,
+          "system": "double_well",
+          "tol": 1e-05,
+          "why": "separable nonlinear; symplectic keeps error bounded"
+        }
+      ],
+      "method": "yoshida6",
+      "metrics": {
+        "cost": {
+          "n_fev": 119995,
+          "n_rejected": 0,
+          "n_steps": 17142,
+          "wall_sec": 0.07022239999787416
+        },
+        "max_deviation": 2.9577518212420273e-10,
+        "monotone_fraction": 0.4998249912495625,
+        "net_drift": -4.2771342023684156e-13,
+        "relative_drift": 8.64023878059803e-13,
+        "sign_ratio": 0.5001458491336561
+      },
+      "n_fev": 119995,
+      "n_rejected": 0,
+      "n_steps": 17142,
+      "route": {
+        "conserved_available": true,
+        "conserved_max_rel_drift": 3.4832138699669426e-08,
+        "conserved_tol": 1e-06,
+        "degraded": false,
+        "hamiltonian_score": 0.9999999999999827,
+        "linear_residual": 8.667836860019543e-17,
+        "method": "yoshida6",
+        "n_probe": 24,
+        "reason": "unanimous symplectic vote; system is separable",
+        "seed": 20260101,
+        "separability": true,
+        "votes": {
+          "conserved": true,
+          "hamiltonian": true,
+          "jacobian": true
+        }
+      },
+      "system": "double_well",
+      "wall_sec": 0.07022239999787416
+    },
+    {
+      "invariants": [
+        {
+          "max_deviation": 2.220446049250313e-14,
+          "n_points": 17143,
+          "net_drift": 0.0,
+          "passed": true,
+          "quantity": "energy",
+          "relative_drift": 1.23279789023155e-14,
+          "system": "pendulum",
+          "tol": 1e-06,
+          "why": "separable; moderate amplitude at theta0=2.5"
+        }
+      ],
+      "method": "yoshida6",
+      "metrics": {
+        "cost": {
+          "n_fev": 119995,
+          "n_rejected": 0,
+          "n_steps": 17142,
+          "wall_sec": 0.1220616999999038
+        },
+        "max_deviation": 2.220446049250313e-14,
+        "monotone_fraction": NaN,
+        "net_drift": 0.0,
+        "relative_drift": 0.0,
+        "sign_ratio": 0.501796211626388
+      },
+      "n_fev": 119995,
+      "n_rejected": 0,
+      "n_steps": 17142,
+      "route": {
+        "conserved_available": true,
+        "conserved_max_rel_drift": 8.295453848560589e-10,
+        "conserved_tol": 1e-06,
+        "degraded": false,
+        "hamiltonian_score": 0.9999999999999716,
+        "linear_residual": 1.4216233561230947e-16,
+        "method": "yoshida6",
+        "n_probe": 24,
+        "reason": "unanimous symplectic vote; system is separable",
+        "seed": 20260101,
+        "separability": true,
+        "votes": {
+          "conserved": true,
+          "hamiltonian": true,
+          "jacobian": true
+        }
+      },
+      "system": "pendulum",
+      "wall_sec": 0.1220616999999038
+    },
+    {
+      "invariants": [
+        {
+          "max_deviation": 2.894836437228321e-08,
+          "n_points": 519,
+          "net_drift": 2.894836437228321e-08,
+          "passed": true,
+          "quantity": "angular_momentum",
+          "relative_drift": 3.618545415596687e-08,
+          "system": "kepler",
+          "tol": 1e-06,
+          "why": "central force conserves L exactly; measured drift is dp54 tolerance-limited"
+        },
+        {
+          "max_deviation": 3.9427824116700094e-08,
+          "n_points": 519,
+          "net_drift": 3.9427824116700094e-08,
+          "passed": true,
+          "quantity": "energy",
+          "relative_drift": 7.885564628737778e-08,
+          "system": "kepler",
+          "tol": 1e-06,
+          "why": "central force conserves L exactly; measured drift is dp54 tolerance-limited"
+        }
+      ],
+      "method": "dp54",
+      "metrics": {
+        "cost": {
+          "n_fev": 4327,
+          "n_rejected": 203,
+          "n_steps": 518,
+          "wall_sec": 0.05376070000056643
+        },
+        "max_deviation": 2.894836437228321e-08,
+        "monotone_fraction": 0.5444015444015444,
+        "net_drift": 2.894836437228321e-08,
+        "relative_drift": 3.618545415596687e-08,
+        "sign_ratio": 0.5444015444015444
+      },
+      "n_fev": 4327,
+      "n_rejected": 203,
+      "n_steps": 518,
+      "route": {
+        "conserved_available": true,
+        "conserved_max_rel_drift": 1.0348033540092386e-10,
+        "conserved_tol": 1e-06,
+        "degraded": false,
+        "hamiltonian_score": 0.9999999999999947,
+        "linear_residual": 2.681206577116404e-17,
+        "method": "dp54",
+        "n_probe": 24,
+        "reason": "split vote 3-0; conservative fallback to adaptive solver (Hamiltonian but not separable)",
+        "seed": 20260101,
+        "separability": false,
+        "votes": {
+          "conserved": true,
+          "hamiltonian": true,
+          "jacobian": true
+        }
+      },
+      "system": "kepler",
+      "wall_sec": 0.05376070000056643
+    },
+    {
+      "invariants": [],
+      "method": "dp54",
+      "metrics": {
+        "cost": {
+          "n_fev": 1873,
+          "n_rejected": 64,
+          "n_steps": 248,
+          "wall_sec": 0.019156100002874155
+        },
+        "max_deviation": 0.0,
+        "net_drift": 0.0
+      },
+      "n_fev": 1873,
+      "n_rejected": 64,
+      "n_steps": 248,
+      "route": {
+        "conserved_available": false,
+        "conserved_max_rel_drift": 0.0,
+        "conserved_tol": 1e-06,
+        "degraded": false,
+        "hamiltonian_score": 0.7698602703192896,
+        "linear_residual": 0.029422777210445908,
+        "method": "dp54",
+        "n_probe": 24,
+        "reason": "unanimous non-Hamiltonian; adaptive solver",
+        "seed": 20260101,
+        "separability": false,
+        "votes": {
+          "conserved": false,
+          "hamiltonian": false,
+          "jacobian": false
+        }
+      },
+      "system": "van_der_pol",
+      "wall_sec": 0.019156100002874155
+    },
+    {
+      "invariants": [],
+      "method": "dp54",
+      "metrics": {
+        "cost": {
+          "n_fev": 6229,
+          "n_rejected": 219,
+          "n_steps": 819,
+          "wall_sec": 0.08111740000458667
+        },
+        "max_deviation": 0.0,
+        "net_drift": 0.0
+      },
+      "n_fev": 6229,
+      "n_rejected": 219,
+      "n_steps": 819,
+      "route": {
+        "conserved_available": false,
+        "conserved_max_rel_drift": 0.0,
+        "conserved_tol": 1e-06,
+        "degraded": false,
+        "hamiltonian_score": 0.6437638453563462,
+        "linear_residual": 0.21553518824535275,
+        "method": "dp54",
+        "n_probe": 24,
+        "reason": "unanimous non-Hamiltonian; adaptive solver",
+        "seed": 20260101,
+        "separability": false,
+        "votes": {
+          "conserved": false,
+          "hamiltonian": false,
+          "jacobian": false
+        }
+      },
+      "system": "lorenz",
+      "wall_sec": 0.08111740000458667
+    }
+  ],
+  "thresholds": {
+    "G1": 0.1,
+    "G2": 1.0,
+    "G3": 0.95
+  },
+  "wall_sec_total": 46.15115660000447
+}
